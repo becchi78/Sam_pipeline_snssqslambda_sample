@@ -1,0 +1,81 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: SQS Queue with Dead Letter Queue support
+
+Parameters:
+  QueueName:
+    Type: String
+    Description: "The name of the SQS queue"
+  DLQName:
+    Type: String
+    Description: "The name of the Dead Letter Queue"
+  VisibilityTimeout:
+    Type: Number
+    Description: "The length of time during which a message will be unavailable after a message is delivered from the queue"
+    Default: 30
+  MessageRetentionPeriod:
+    Type: Number
+    Description: "The number of seconds that Amazon SQS retains a message"
+    Default: 345600
+  MaxReceiveCount:
+    Type: Number
+    Description: "The number of times a message is delivered to the source queue before it's moved to the DLQ"
+    Default: 5
+
+
+Resources:
+  DeadLetterQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Ref DLQName
+
+  SQSQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: !Ref QueueName
+      MessageRetentionPeriod:  !Ref MessageRetentionPeriod
+      VisibilityTimeout:  !Ref VisibilityTimeout
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt DeadLetterQueue.Arn
+        maxReceiveCount: !Ref MaxReceiveCount
+
+  SnsSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Protocol: sqs
+      Endpoint: !GetAtt SQSQueue.Arn
+      TopicArn: !ImportValue MySNSTopicArn
+      FilterPolicy:
+        SampleType:
+          - BIH
+
+  QueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Id: AllowSnsTopicToSendMessage
+        Statement:
+          - Sid: 1
+            Effect: Allow
+            Principal: "*"
+            Action:
+              - sqs:SendMessage
+            Resource: "*"
+            Condition:
+              ArnEquals:
+                aws:SourceArn: !ImportValue MySNSTopicArn
+      Queues:
+        - !Ref SQSQueue
+
+Outputs:
+  DLQArn:
+    Description: "The ARN of the Dead Letter Queue"
+    Value: !GetAtt DeadLetterQueue.Arn
+    Export:
+      Name: MyDLQArn
+
+  SQSQueueArn:
+    Description: "The ARN of the SQS Queue"
+    Value: !GetAtt SQSQueue.Arn
+    Export:
+      Name: MySQSQueueArn

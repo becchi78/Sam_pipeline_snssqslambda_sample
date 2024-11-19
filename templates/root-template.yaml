@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  SNSTopicName:
+    Type: String
+    Description: "The name of the SNS topic"
+  SQSQueueName:
+    Type: String
+    Description: "The name of the SQS queue"
+  LambdaName:
+    Type: String
+    Description: "The name of the Lambda function"
+  DLQName:
+    Type: String
+    Description: "The name of the Dead Letter Queue"
+  VisibilityTimeout:
+    Type: Number
+    Description: "The length of time during which a message will be unavailable after a message is delivered from the queue"
+    Default: 30
+  MessageRetentionPeriod:
+    Type: Number
+    Description: "The number of seconds that Amazon SQS retains a message"
+    Default: 345600
+  MaxReceiveCount:
+    Type: Number
+    Description: "The number of times a message is delivered to the source queue before it's moved to the DLQ"
+    Default: 5
+
+Resources:
+  SNSTopicStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./sns.yaml
+      Parameters:
+        TopicName: !Ref SNSTopicName
+
+  SQSQueueStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - SNSTopicStack
+    Properties:
+      TemplateURL: ./sqs.yaml
+      Parameters:
+        QueueName: !Ref SQSQueueName
+        DLQName: !Ref DLQName
+        VisibilityTimeout: !Ref VisibilityTimeout
+        MessageRetentionPeriod: !Ref MessageRetentionPeriod
+        MaxReceiveCount: !Ref MaxReceiveCount
+
+  LambdaStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - SNSTopicStack
+      - SQSQueueStack
+    Properties:
+      TemplateURL: ./lambda.yaml
+      Parameters:
+        FunctionName: !Ref LambdaName
