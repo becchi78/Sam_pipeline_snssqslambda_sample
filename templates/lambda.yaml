@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Parameters:
+  FunctionName:
+    Type: String
+    Description: "The name of the Lambda function"
+
+Resources:
+  MessageProcessorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Ref FunctionName
+      CodeUri: ../functions/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !ImportValue MySQSQueueArn
+

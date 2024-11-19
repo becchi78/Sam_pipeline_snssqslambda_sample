@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: sns
+Parameters:
+  TopicName:
+    Type: String
+    Description: "The name of the SNS topic"
+
+Resources:
+  SNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Ref TopicName
+
+Outputs:
+  SNSTopicArn:
+    Description: "The ARN of the SNS Topic"
+    Value: !Ref SNSTopic
+    Export:
+      Name: MySNSTopicArn
