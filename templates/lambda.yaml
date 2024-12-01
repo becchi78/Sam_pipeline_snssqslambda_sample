@@ -1,5 +1,5 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: 'AWS::Serverless-2016-10-31'
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
 Parameters:
   FunctionName:
     Type: String
@@ -12,10 +12,9 @@ Resources:
       FunctionName: !Ref FunctionName
       CodeUri: ../functions/
       Handler: app.lambda_handler
-      Runtime: python3.9
+      Runtime: python3.12
       Events:
         SQSEvent:
           Type: SQS
           Properties:
             Queue: !ImportValue MySQSQueueArn
-
