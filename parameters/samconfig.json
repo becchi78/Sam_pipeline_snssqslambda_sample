@@ -1,0 +1,14 @@
+{
+  "Parameters": {
+    "SNSTopicName": "SampleSNSTopic",
+    "SQSQueueName": "SampleSQSQueue",
+    "LambdaName": "SampleMessageProcessorFunction",
+    "DLQName": "SampleDeadLetterQueue",
+    "VisibilityTimeout": "60",
+    "MessageRetentionPeriod": "3600",
+    "MaxReceiveCount": "2"
+  },
+  "Tags": {
+    "Environment": "Development"
+  }
+}
