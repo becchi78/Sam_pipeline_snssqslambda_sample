@@ -17,7 +17,7 @@ phases:
     commands:
       - echo Build started on `date`
       - sam build
-      - sam package --template-file templates/root-template.yaml --s3-bucket ${ARTIFACT_BUCKET} --output-template-file packaged-template.yaml
+      - sam package --template-file templates/root-template.yaml --s3-bucket cicd-sam-test-artifacts-bucket --output-template-file packaged-template.yaml
 
   post_build:
     commands:
