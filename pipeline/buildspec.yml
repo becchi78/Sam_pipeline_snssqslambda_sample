@@ -28,4 +28,5 @@ artifacts:
     - packaged-template.yaml
     - templates/**/*
     - parameters/**/*
+    - pipeline/**/*
   discard-paths: no
