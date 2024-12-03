@@ -12,8 +12,8 @@ phases:
   pre_build:
     commands:
       - echo Starting pre-deploy phase...
-      - ls -la /codebuild/output/src*/src/s3/00/ #SourceArtifact
-      - ls -la /codebuild/output/src*/src/s3/01/ #BuildArtifact
+      - ls -lR /codebuild/output/src*/src/s3/00/ #SourceArtifact
+      - ls -lR /codebuild/output/src*/src/s3/01/ #BuildArtifact
 
   build:
     commands:
