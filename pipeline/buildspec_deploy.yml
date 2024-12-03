@@ -12,7 +12,7 @@ phases:
   pre_build:
     commands:
       - echo Starting pre-deploy phase...
-      - ls -lR /codebuild/output/src*/src/s3/01/ #BuildArtifact
+      - ls -lR /codebuild/output/src*/src/s3/00/ #BuildArtifact
 
   build:
     commands:
@@ -22,10 +22,3 @@ phases:
   post_build:
     commands:
       - echo Deploy completed on `date`
-
-artifacts:
-  files:
-    - packaged-template.yaml
-    - templates/**/*
-    - parameters/**/*
-  discard-paths: no
