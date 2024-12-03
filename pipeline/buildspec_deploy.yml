@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.12
+    commands:
+      - pip install --upgrade pip
+      - pip install aws-sam-cli
+      - sam --version
+
+  pre_build:
+    commands:
+      - echo Starting pre-deploy phase...
+
+  build:
+    commands:
+      - echo deploy started on `date`
+      - sam deploy --template-file packaged-template.yaml --config-file=parameters/samconfig.yaml
+
+  post_build:
+    commands:
+      - echo Deploy completed on `date`
+
+artifacts:
+  files:
+    - packaged-template.yaml
+    - templates/**/*
+    - parameters/**/*
+  discard-paths: no
