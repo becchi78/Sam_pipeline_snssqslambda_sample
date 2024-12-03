@@ -12,12 +12,13 @@ phases:
   pre_build:
     commands:
       - echo Starting pre-deploy phase...
+      - ls -lR /codebuild/output/src*/src/s3/00/ #SourceArtifact
       - ls -lR /codebuild/output/src*/src/s3/00/ #BuildArtifact
 
   build:
     commands:
       - echo deploy started on `date`
-      - sam deploy --template-file packaged-template.yaml --config-file=parameters/samconfig.yaml
+      - sam deploy --template-file /codebuild/output/src*/src/s3/01/packaged-template.yaml --config-file=/codebuild/output/src*/src/s3/00/parameters/samconfig.yaml
 
   post_build:
     commands:
