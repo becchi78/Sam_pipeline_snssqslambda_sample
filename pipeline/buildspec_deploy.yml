@@ -13,7 +13,7 @@ phases:
     commands:
       - echo Starting pre-deploy phase...
       - ls -lR /codebuild/output/src*/src/s3/00/ #SourceArtifact
-      - ls -lR /codebuild/output/src*/src/s3/00/ #BuildArtifact
+      - ls -lR /codebuild/output/src*/src/s3/01/ #BuildArtifact
 
   build:
     commands:
