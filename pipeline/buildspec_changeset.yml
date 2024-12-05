@@ -19,6 +19,7 @@ phases:
   build:
     commands:
       - echo Creating changeset
+      - |
       - aws cloudformation create-change-set \
         --stack-name ${STACK_NAME} \
         --template-body file://packaged-template.yaml \
