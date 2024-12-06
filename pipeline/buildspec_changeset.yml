@@ -13,16 +13,15 @@ phases:
 
   pre_build:
     commands:
-      #- STACK_NAME=$(yq -r '.default.deploy.parameters.stack_name' parameters/samconfig.yaml)
-      #- echo "Stack name from config: ${STACK_NAME}"
-      - echo "Stack name from config samsnssqsstack"
+      - STACK_NAME=$(yq -r '.default.deploy.parameters.stack_name' parameters/samconfig.yaml)
+      - echo "Stack name from config ${STACK_NAME}"
 
   build:
     commands:
       - echo Creating changeset
       - |
         aws cloudformation create-change-set \
-          --stack-name samsnssqsstack \
+          --stack-name ${STACK_NAME} \
           --template-body file://packaged-template.yaml \
           --change-set-name deploy-changeset-$(date +%Y%m%d-%H%M%S) \
           --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND
