@@ -10,7 +10,7 @@ phases:
   pre_build:
     commands:
       - STACK_NAME=$(yq -r '.default.deploy.parameters.stack_name' parameters/samconfig.yaml)
-      - echo "Stack name from config: ${STACK_NAME}"
+      - echo "Stack name from config ${STACK_NAME}"
 
   build:
     commands:
