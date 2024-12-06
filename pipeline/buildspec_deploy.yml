@@ -1,11 +1,15 @@
-ersion: 0.2
+version: 0.2
 
 phases:
   install:
     runtime-versions:
       python: 3.12
     commands:
-      - pip install --upgrade pip yq
+      - pip install --upgrade pip
+      - pip install aws-sam-cli yq
+      - yum install -y jq
+      - pip install aws-sam-cli
+      - sam --version
 
   pre_build:
     commands:
