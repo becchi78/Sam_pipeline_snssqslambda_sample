@@ -18,10 +18,8 @@ phases:
 
   build:
     commands:
-      - echo Executing changeset
-      - aws cloudformation execute-change-set \
-        --stack-name ${STACK_NAME} \
-        --change-set-name `aws cloudformation list-change-sets --stack-name ${STACK_NAME} --query 'Summaries[0].ChangeSetName' --output text`
+      - echo Deploy sam
+      - sam deploy --template-file packaged-template.yaml --config-file parameters/samconfig.yaml
 
   post_build:
     commands:

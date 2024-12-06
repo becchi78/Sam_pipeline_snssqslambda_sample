@@ -5,7 +5,7 @@ AWS SAM を使用して、SNS トピック、SQS キュー (およびデッド�
 ## プロジェクト構成
 
 ```bash
-SAM_SNS_SQS_Lambda_Stack_Sample  
+SAM_SNS_SQS_Lambda_Stack_Sample
 ├── parameters/
 │   └── samconfig.yaml ・・・手動デプロイ用の設定ファイルです。パラメータも記載しています。
 ├── templates/
@@ -22,6 +22,7 @@ SAM_SNS_SQS_Lambda_Stack_Sample
 以下のコマンドを使用して、CloudFormation スタックをデプロイします。
 
 ```bash
+sam build --template-file templates/root-template.yaml
 sam package --template-file templates/root-template.yaml --s3-bucket <YOUR_S3_BUCKET> --output-template-file packaged-template.yaml
 sam deploy --template-file packaged-template.yaml --config-file parameters/samconfig.yaml
 ```
@@ -36,8 +37,8 @@ aws cloudformation delete-stack --stack-name <YOUR_STACK_NAME>
 
 ## Output
 
-| キー            | 説明                              | エクスポート名         |
-|-----------------|----------------------------------|-----------------------|
-| SNSTopicArn     | The ARN of the SNS Topic         | MySNSTopicArn         |
-| SQSQueueArn     | The ARN of the SQS Queue         | MySQSQueueArn         |
-| DLQArn          | The ARN of the Dead Letter Queue | MyDLQArn              |
+| キー        | 説明                             | エクスポート名 |
+| ----------- | -------------------------------- | -------------- |
+| SNSTopicArn | The ARN of the SNS Topic         | MySNSTopicArn  |
+| SQSQueueArn | The ARN of the SQS Queue         | MySQSQueueArn  |
+| DLQArn      | The ARN of the Dead Letter Queue | MyDLQArn       |

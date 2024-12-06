@@ -25,6 +25,7 @@ phases:
           --template-body file://packaged-template.yaml \
           --change-set-name deploy-changeset-$(date +%Y%m%d-%H%M%S) \
           --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND
+          --parameters file://parameters/samconfig.yaml
 
   post_build:
     commands:
