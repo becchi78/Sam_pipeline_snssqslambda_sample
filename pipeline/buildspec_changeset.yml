@@ -20,11 +20,12 @@ phases:
     commands:
       - echo Creating changeset
       - |
-        sam deploy create-change-set \
+        sam deploy \
           --template-file packaged-template.yaml \
           --config-file parameters/samconfig.yaml
-        --no-execute-changeset \
+        --no-confirm-changeset \
         --no-fail-on-empty-changeset
+        --no-execute-changeset
 
   post_build:
     commands:
