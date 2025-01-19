@@ -10,7 +10,7 @@ default:
         - CAPABILITY_IAM
         - CAPABILITY_AUTO_EXPAND
       parameter_overrides:
-        - SNSTopicName=SampleSNSTopic2
+        - SNSTopicName=SampleSNSTopic
         - SQSQueueName=SampleSQSQueue2
         - LambdaName=SampleMessageProcessorFunction2
         - DLQName=SampleDeadLetterQueue
